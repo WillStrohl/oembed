@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WillStrohl.API.oEmbed", "WillStrohl.oEmbed\WillStrohl.API.oEmbed.vbproj", "{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{4718D292-B290-4CF6-944B-DF9749AD75FB}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0FB88BA-F7C0-4939-8982-BD8C6F98D815}
+	EndGlobalSection
+EndGlobal
