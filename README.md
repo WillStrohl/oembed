@@ -33,4 +33,16 @@ The [Media Module for DNN](https://github.com/dnncommunity/dnn.media) uses this 
 ## System Requirements
 .Net Framework 4.5.1 or higher
 JSON.NET
-[oEmbed](http://www.oembed.com)
+[oEmbed](http://www.oembed.com)  
+
+<hr />  
+
+## `Sponsors == (typeOf superHuman) Awesome;`  
+
+> Yes, it's not real code. It's just supposed to be fun. :P
+
+This solution is created and maintained by [Upendo Ventures](https://upendoventures.com/What/CMS/DNN) for the [DNN CMS Community](https://dnncommunity.org). Please consider [sponsoring us](https://github.com/sponsors/UpendoVentures) for this and [the many other open-source efforts we do](https://upendoventures.com/What/CMS/DNN/Extensions).  It's a lot.  :)  
+
+- [Sponsor Us](https://github.com/sponsors/UpendoVentures) (we're grateful at any level 🙏🏽)  
+
+<hr />  
