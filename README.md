@@ -31,9 +31,19 @@ See the [Wiki](https://github.com/hismightiness/oembed/wiki) for more informatio
 The [Media Module for DNN](https://github.com/dnncommunity/dnn.media) uses this provider to allow end users to very quickly add media to their websites.
 
 ## System Requirements
-.Net Framework 4.5.1 or higher
+.NET Framework 4.8
 JSON.NET
 [oEmbed](http://www.oembed.com)  
+
+## Build and LocalMCP workflow
+
+This is a legacy VB.NET solution targeting .NET Framework 4.8. Inspect the solution and project files before building; use MSBuild on `PATH` rather than assuming SDK-style `dotnet` tooling. Builds and validation are approved operations, not an automatic consequence of an AI request, and should use only the exact approved solution/project, working directory, and arguments.
+
+When the repository-local LocalMCP server is available, use its read-only repository reads, scoped search, project inspection, Git status/diff, and release-readiness checks first. Keep its allowed roots limited to this repository. Do not use it to expose secrets or unrelated directories. LocalMCP patch output is for review and does not apply, stage, commit, version, publish, or deploy changes.
+
+For AI clients, follow this hierarchy: user request; active ODD task document; `AGENTS.md`; the selected client instruction file (`CLAUDE.md`, root `copilot-instructions.md`, or `.github/copilot-instructions.md`); then this README and other reference documentation. Lower-level guidance cannot expand task scope or override a higher-level instruction.
+
+This repository's workflow is no-commit and no-deployment: do not create commits, tags, versions, packages, releases, or deployments unless explicitly authorized by a later task.
 
 <hr />  
 

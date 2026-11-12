@@ -1,0 +1,31 @@
+{
+  "Repository": {
+    "Root": ".",
+    "AllowedRoots": [
+      "."
+    ],
+    "ExcludedGlobs": [
+      ".git/**",
+      "**/bin/**",
+      "**/obj/**",
+      "**/node_modules/**",
+      "**/packages/**",
+      "**/.vs/**",
+      "**/.vscode/**",
+      "**/vscode/**"
+    ],
+    "Builds": [
+      {
+        "Name": "legacy-oembed-release",
+        "Kind": "msbuild",
+        "WorkingDirectory": ".",
+        "Executable": "MSBuild.exe",
+        "Arguments": [
+          "WillStrohl.API.oEmbed.sln",
+          "/m",
+          "/p:Configuration=Release"
+        ]
+      }
+    ]
+  }
+}
