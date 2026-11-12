@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "upendo-local-development": {
+      "command": "dotnet",
+      "args": [
+        "Tools/Upendo.LocalDevelopmentMcp/bin/Release/net8.0/Upendo.LocalDevelopmentMcp.dll"
+      ],
+      "cwd": ".",
+      "env": {},
+      "disabled": false
+    }
+  }
+}
