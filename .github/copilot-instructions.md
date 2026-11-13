@@ -4,9 +4,9 @@ Follow the repository hierarchy in `AGENTS.md`; also read the root `copilot-inst
 
 ## Repository context
 
-- This is a legacy VB.NET oEmbed wrapper and must retain its existing public API and provider behavior.
-- The supported modernization target is **.NET Framework 4.8**. Do not assume SDK-style projects or `dotnet` tooling.
-- Preserve the existing Visual Basic project and solution conventions. Do not introduce a framework, package, or build-system change without explicit approval.
+- This is an SDK-style C# oEmbed class library and must retain its existing public API and provider behavior.
+- The supported target is **.NET Framework 4.8**. Use the SDK-style project with the approved MSBuild workflow rather than assuming `dotnet` tooling.
+- Preserve the existing C# project and solution conventions. Do not introduce a framework, package, or build-system change without explicit approval.
 
 ## LocalMCP safety
 

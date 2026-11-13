@@ -4,8 +4,8 @@ Read and follow `AGENTS.md` first. It is the canonical repository instruction fi
 
 ## Project context
 
-- This repository is a legacy VB.NET oEmbed wrapper.
-- The supported modernization target is .NET Framework 4.8. Preserve the existing project structure and public provider API.
+- This repository is an SDK-style C# oEmbed class library targeting .NET Framework 4.8.
+- Preserve the existing C# project structure and public provider API.
 - Review the active ODD task document and its allowed edit surfaces before making changes.
 
 ## LocalMCP workflow

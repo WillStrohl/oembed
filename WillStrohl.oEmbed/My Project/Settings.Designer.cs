@@ -1,0 +1,2 @@
+using System.Configuration; using System.ComponentModel;
+namespace My { internal sealed partial class MySettings : ApplicationSettingsBase { private static readonly MySettings defaultInstance=(MySettings)Synchronized(new MySettings()); public static MySettings Default { get{return defaultInstance;} } } internal static class MySettingsProperty { internal static MySettings Settings { get{return MySettings.Default;} } } }

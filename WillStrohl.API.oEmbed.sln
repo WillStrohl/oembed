@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37710.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WillStrohl.API.oEmbed", "WillStrohl.oEmbed\WillStrohl.API.oEmbed.vbproj", "{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WillStrohl.API.oEmbed", "WillStrohl.oEmbed\WillStrohl.API.oEmbed.csproj", "{CDD55E7E-00B4-4AA5-BE3B-991905BFD35C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{4718D292-B290-4CF6-944B-DF9749AD75FB}"
 	ProjectSection(SolutionItems) = preProject

@@ -1,0 +1,3 @@
+using System; using System.IO; using System.Net;
+
+namespace WillStrohl.API.oEmbed { public sealed class RequestController { public string GetOEmbedContent(string u){return GetOEmbedContent(u,"",-1);} public string GetOEmbedContent(string u,string a,int p){WebRequest q=null;HttpWebResponse r=null;Stream d=null;StreamReader x=null;try{q=WebRequest.Create(u);q.Proxy=!string.IsNullOrEmpty(a)&&p>-1?new WebProxy(string.Concat(a,":",p.ToString()),true):null;q.Credentials=CredentialCache.DefaultCredentials;r=(HttpWebResponse)q.GetResponse();d=r.GetResponseStream();x=new StreamReader(d);return x.ReadToEnd();}catch(Exception e){return ApplicationError.GetAppliationErrorObject(e.Message);}finally{if(x!=null)x.Close();if(d!=null)d.Close();if(r!=null)r.Close();}}}}
