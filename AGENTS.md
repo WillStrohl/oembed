@@ -1,6 +1,6 @@
 # Repository Instructions
 
-These are the repository-wide instructions for AI coding agents working on the legacy VB.NET oEmbed wrapper and its repository-local LocalMCP workflow.
+These are the repository-wide instructions for AI coding agents working on the C# oEmbed wrapper and its repository-local LocalMCP workflow.
 
 ## Authority and instruction hierarchy
 
@@ -17,9 +17,9 @@ Lower-level files may add guidance but must not broaden scope or override a high
 
 ## Repository context
 
-- This is a legacy VB.NET oEmbed wrapper, not a modern .NET application.
-- The supported modernization target is **.NET Framework 4.8**. Preserve compatibility with the framework and with the existing VB.NET project structure.
-- Inspect the solution and project files before proposing build or source changes. Do not assume SDK-style projects, `dotnet` commands, or cross-platform tooling.
+- This is an SDK-style C# oEmbed class library targeting **.NET Framework 4.8**.
+- Preserve compatibility with the framework and with the existing C# project structure.
+- Inspect the solution and project files before proposing build or source changes. Do not assume cross-platform tooling or substitute `dotnet` commands for the approved MSBuild workflow.
 - Preserve the existing public API, provider behavior, and dependency conventions unless the active task explicitly changes them.
 
 ## Scope and editing rules

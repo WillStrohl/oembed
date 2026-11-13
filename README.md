@@ -37,7 +37,7 @@ JSON.NET
 
 ## Build and LocalMCP workflow
 
-This is a legacy VB.NET solution targeting .NET Framework 4.8. Inspect the solution and project files before building; use MSBuild on `PATH` rather than assuming SDK-style `dotnet` tooling. Builds and validation are approved operations, not an automatic consequence of an AI request, and should use only the exact approved solution/project, working directory, and arguments.
+This is an SDK-style C# solution targeting .NET Framework 4.8. Inspect the solution and project files before building; use MSBuild on `PATH` rather than assuming `dotnet` tooling. Builds and validation are approved operations, not an automatic consequence of an AI request, and should use only the exact approved solution/project, working directory, and arguments.
 
 When the repository-local LocalMCP server is available, use its read-only repository reads, scoped search, project inspection, Git status/diff, and release-readiness checks first. Keep its allowed roots limited to this repository. Do not use it to expose secrets or unrelated directories. LocalMCP patch output is for review and does not apply, stage, commit, version, publish, or deploy changes.
 
