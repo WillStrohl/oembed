@@ -1,50 +1,122 @@
-**Project Description**
-A .NET wrapper for the oEmbed open format for embedding content from other websites into your own (e.g., YouTube, Flickr, Qik, Vimeo, Hulu, Viddler, MyOpera, etc.) using REST calls.
+# oEmbed for .NET
 
-# oEmbed API Wrapper for .NET
+[![NuGet](https://img.shields.io/nuget/v/WillStrohl.API.oEmbed.svg)](https://www.nuget.org/packages/WillStrohl.API.oEmbed)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/WillStrohl/oembed/blob/master/LICENSE)
 
-[oEmbed](http://www.oembed.com) is an open format standard for using REST to import content (such as videos, widgets, and images) from one website to another, avoiding XSS issues, and without having to parse the resource website.  This wrapper allows you to simply make function calls in your own code to return the content that you desire.  This is already a common feature in many blog engines and CMS's, such as WordPress.  This wrapper brings this functionality to all .Net applications now.
+Turn a URL into embeddable content with a single call. Paste in a Spotify track, a SoundCloud set, a TikTok video, or any page that advertises an oEmbed endpoint, and get back safe, ready-to-render HTML.
 
-You can only use this wrapper to import content from websites that have an oEmbed implementation (_referred to as providers_). The wrapper retains concrete provider classes for compatibility, while automatic URL detection is limited to providers with active routing support.
+```csharp
+using WillStrohl.API.oEmbed;
 
-### Active automatic providers
+var html = new Wrapper().GetContent(
+    new RequestInfo("https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC"));
+```
 
-* [Embed.ly](http://embed.ly/)
-* [Flickr](http://www.flickr.com)
-* [Hulu](http://www.hulu.com)
-* [oohEmbed](http://oohembed.com)
-* [Qik](http://qik.com)
-* [Revision3](http://revision3.com)
-* [SoundCloud](https://soundcloud.com)
-* [Spotify](https://open.spotify.com)
-* [TikTok](https://www.tiktok.com)
-* [Vimeo](http://vimeo.com)
-* [YouTube](http://www.youtube.com)
+[oEmbed](https://oembed.com) is an open standard that lets one site ask another, "How should I embed this URL?" This library handles the request, routing, discovery, and sanitizing so you don't have to scrape or parse anyone's markup.
 
-### Modern provider endpoints
+## Why use it
 
-Spotify uses the official `https://open.spotify.com/oembed` endpoint for rich oEmbed responses from podcast shows and episodes, artists, albums, and tracks. SoundCloud uses the official `https://soundcloud.com/oembed` endpoint with JSON responses for user, set, playlist, and track URLs. TikTok uses the official `https://www.tiktok.com/oembed` endpoint without authentication for documented creator-profile and video URLs. TikTok's embed behavior and availability are controlled by TikTok; embeds may change or be deprecated as TikTok changes its embed lifecycle, so applications should be prepared for provider responses or embeds to stop being available.
+- **One call, many sources.** Built-in routes for popular providers, plus automatic discovery for everything else.
+- **Secure by default.** Blocks SSRF targets, bounds responses, revalidates redirects, and never sends ambient credentials.
+- **Safe output.** Video and rich HTML is reduced to a safe `<iframe>`; anything else comes back HTML-encoded.
+- **Used in production.** Powers media embedding on [runsonUpendo](https://runsonupendo.com) client websites.
 
-The public `PollEverywhere`, `MyOpera`, and `Viddler` provider classes and their constants remain available for source and binary compatibility. Their historical URL patterns are not automatically detected or routed, and this project does not claim current endpoint availability for them.
+## Install
 
-Please note that a few of the active providers above make it possible to **import media from over 200 different sources** online - primarily social network websites.
+```powershell
+dotnet add package WillStrohl.API.oEmbed
+```
 
-If you know of a site that supports [oEmbed](http://www.oembed.com) that's not on this list, don't worry.  This wrapper also supports open calls to nearly any wrapper out there, even if you require a proxy.
+Or from the Package Manager Console:
 
-## Example Usage
-See the [Wiki](https://github.com/hismightiness/oembed/wiki) for more information.
+```powershell
+Install-Package WillStrohl.API.oEmbed
+```
+
+| Requirement | Version |
+|-------------|---------|
+| .NET Framework | 4.8 |
+| Newtonsoft.Json | 13.0.3 (installed automatically) |
+
+## Usage
+
+### Let the library figure it out
+
+`Wrapper.GetContent` is the main entry point. It returns a `string` whose meaning depends on what the provider sends back:
+
+| Response type | You get |
+|---------------|---------|
+| `video` / `rich` | Sanitized embed HTML |
+| `photo` | The image URL |
+| `link` | The resource title |
+
+```csharp
+var wrapper = new Wrapper();
+
+// Constrain the embed size (forwarded as maxwidth / maxheight)
+var html = wrapper.GetContent(
+    new RequestInfo("https://soundcloud.com/forss/flickermood", 640, 360));
+```
+
+How a URL is resolved:
+
+1. **Built-in route.** If the URL matches a known provider, that provider's endpoint is called directly.
+2. **Discovery.** Otherwise the page is fetched and checked for a JSON oEmbed endpoint, either in a `<link rel="alternate" type="application/json+oembed">` element or an HTTP `Link` header.
+3. **No match.** An `ArgumentOutOfRangeException` is thrown.
+
+### Call a specific endpoint
+
+When you already know a provider's oEmbed endpoint, call it explicitly:
+
+```csharp
+var request = new RequestInfo("https://vimeo.com/76979871");
+
+string video = wrapper.GetVideoContent("https://vimeo.com/api/oembed.json", request);
+string rich  = wrapper.GetRichContent("https://example.com/oembed", request);
+string photo = wrapper.GetPhotoContent("https://example.com/oembed",
+    new RequestInfo("https://example.com/photo/1", 800, 600)); // photo requires width and height
+```
+
+The library appends `url` and `format=json` for you. An endpoint containing a `{format}` placeholder has it replaced. Pass extra query-string fragments as trailing `params string[]` arguments.
+
+## Providers
+
+### Built-in routes
+
+| Provider | Matched URLs |
+|----------|--------------|
+| [Spotify](https://open.spotify.com) | Shows, episodes, artists, albums, tracks |
+| [SoundCloud](https://soundcloud.com) | Users, sets, playlists, tracks |
+| [TikTok](https://www.tiktok.com) | Creator profiles and videos |
+
+These use each provider's official HTTPS endpoint. TikTok controls its own embed lifecycle, so be ready for its embeds to change or stop working.
+
+### Legacy routes
+
+YouTube, Flickr, Vimeo, Hulu, Qik, Revision3, oohEmbed, and Embed.ly still have routes, but they match the original **`http://`** URL patterns. Modern `https://` links to these sites skip the legacy route and go through discovery instead. Several of these services (Qik, Revision3, oohEmbed) no longer exist.
+
+### Retired providers
+
+The `Viddler`, `MyOpera`, `PollEverywhere`, and `ClearspringWidgets` classes remain public for source and binary compatibility, but their URLs are never routed automatically. No current endpoint availability is claimed for them.
 
 ## Security and configuration
 
-Outbound requests are secured by default. Only absolute `http` and `https` URLs are accepted; loopback, private, link-local, metadata, and DNS-resolved internal targets are blocked. Redirects are revalidated, requests have a timeout, response bodies are bounded, and ambient default credentials are never sent. Video and rich HTML is reduced to a safe iframe representation; invalid or unsupported markup is returned HTML-encoded.
+Every outbound request, whether from a built-in route or discovery, goes through the same policy:
 
-### Unauthenticated discovery
+| Protection | Behavior |
+|------------|----------|
+| Schemes | Only absolute `http` and `https` URLs |
+| Internal targets | Loopback, private, link-local, metadata, and DNS-resolved internal addresses are blocked |
+| Redirects | Each hop is revalidated |
+| Limits | Request timeout and bounded response size |
+| Credentials | Ambient default credentials are never sent |
+| Output | Video/rich HTML becomes a safe `<iframe>`; invalid markup is HTML-encoded |
 
-`Wrapper.GetContent(new RequestInfo(url))` keeps explicit provider routing first. For URLs that are not explicitly routed, it can discover a standards-based unauthenticated JSON oEmbed endpoint from either an HTML `<link rel="alternate" type="application/json+oembed" href="...">` element or an HTTP `Link` header. Relative discovery URLs are resolved against the resource URL. Caller `RequestInfo.MaxWidth` and `MaxHeight` values are forwarded as `maxwidth` and `maxheight` when supplied.
+Discovery supports **JSON only**. XML discovery and authenticated or proprietary integrations are out of scope. Malformed JSON and unknown response types are rejected, never rendered.
 
-Discovery uses the same secure request controller as provider calls: redirects are revalidated, internal targets are blocked, response limits and timeouts apply, and credentials are never sent. Only JSON discovery is supported; XML discovery, authenticated/proprietary integrations, and provider-specific exceptions are intentionally out of scope. Discovered rich/video HTML receives the same safe transformation as existing wrapper calls. Standard JSON responses with `type: "link"` are parsed as `LinkInfo` (implementing `ILinkType`); `Wrapper.GetContent` returns the response title for discovered link responses. Photo, video, and rich responses retain their existing models and behavior. Malformed JSON and unsupported response types are rejected rather than rendered as HTML.
+### Troubleshooting switches
 
-A website may place a root-level `oembed.json.config` file in its website root (the application root discovered by ASP.NET; the application base directory is used outside ASP.NET). Missing or malformed configuration uses secure defaults. The supported settings are:
+Drop an `oembed.json.config` file in your application root (the ASP.NET app root, or the base directory outside ASP.NET). A missing or malformed file falls back to secure defaults.
 
 ```json
 {
@@ -53,44 +125,35 @@ A website may place a root-level `oembed.json.config` file in its website root (
 }
 ```
 
-`DisableHtmlTransformation` returns provider HTML without transformation and is intended only for troubleshooting. `DisableSecurity` bypasses the outbound security policy and is a troubleshooting-only emergency switch; it should not be enabled in production. `oembed.json.config.example` is a safe checked-in template and does not enable either bypass.
+> [!WARNING]
+> Both switches exist for troubleshooting only. `DisableSecurity` bypasses the entire outbound policy. Never enable it in production.
 
-## Demo
-Demos of this software can be seen on various [runsonUpendo](https://runsonupendo.com) client websites.  
+A safe template ships in the repo as [`oembed.json.config.example`](https://github.com/WillStrohl/oembed/blob/master/oembed.json.config.example).
 
-## Installation
+## Building from source
 
-Install the `WillStrohl.API.oEmbed` package from NuGet:
+This is an SDK-style solution targeting .NET Framework 4.8, built with MSBuild (the same way CI does it):
 
 ```powershell
-Install-Package WillStrohl.API.oEmbed -Version 0.5.5
+msbuild .\WillStrohl.API.oEmbed.sln -restore -p:Configuration=Release
 ```
 
-The package targets .NET Framework 4.8 and brings in Newtonsoft.Json 13.0.3 as its runtime dependency.
+Tests use MSTest and live in `WillStrohl.API.oEmbed.Tests`. Run them from Visual Studio's Test Explorer or with `vstest.console.exe`.
 
-## System Requirements
-.NET Framework 4.8
-JSON.NET
-[oEmbed](http://www.oembed.com)  
+## Contributing
 
-## Build and LocalMCP workflow
+Issues and pull requests are welcome. Start with the [contributing guide](https://github.com/WillStrohl/oembed/blob/master/.github/CONTRIBUTING.md) and the [code of conduct](https://github.com/WillStrohl/oembed/blob/master/.github/CODE_OF_CONDUCT.md). AI coding agents should follow [`AGENTS.md`](https://github.com/WillStrohl/oembed/blob/master/AGENTS.md).
 
-This is an SDK-style C# solution targeting .NET Framework 4.8. Inspect the solution and project files before building; use MSBuild on `PATH` rather than assuming `dotnet` tooling. Builds and validation are approved operations, not an automatic consequence of an AI request, and should use only the exact approved solution/project, working directory, and arguments.
+More examples live in the [wiki](https://github.com/WillStrohl/oembed/wiki).
 
-When the repository-local LocalMCP server is available, use its read-only repository reads, scoped search, project inspection, Git status/diff, and release-readiness checks first. Keep its allowed roots limited to this repository. Do not use it to expose secrets or unrelated directories. LocalMCP patch output is for review and does not apply, stage, commit, version, publish, or deploy changes.
+<hr />
 
-For AI clients, follow this hierarchy: user request; active ODD task document; `AGENTS.md`; the selected client instruction file (`CLAUDE.md`, root `copilot-instructions.md`, or `.github/copilot-instructions.md`); then this README and other reference documentation. Lower-level guidance cannot expand task scope or override a higher-level instruction.
-
-This repository's workflow is no-commit and no-deployment: do not create commits, tags, versions, packages, releases, or deployments unless explicitly authorized by a later task.
-
-<hr />  
-
-## `Sponsors == (typeOf superHuman) Awesome;`  
+## `Sponsors == (typeOf superHuman) Awesome;`
 
 > Yes, it's not real code. It's just supposed to be fun. :P
 
-This solution is created and maintained by [Upendo Ventures](https://upendoventures.com/). Please consider [sponsoring us](https://github.com/sponsors/UpendoVentures) for this and the many other open-source efforts we maintain.  It's a lot.  :)  
+This solution is created and maintained by [Upendo Ventures](https://upendoventures.com/). Please consider [sponsoring us](https://github.com/sponsors/UpendoVentures) for this and the many other open-source efforts we maintain. It's a lot. :)
 
-- [Sponsor Us](https://github.com/sponsors/UpendoVentures) (we're grateful at any level 🙏🏽)  
+- [Sponsor Us](https://github.com/sponsors/UpendoVentures) (we're grateful at any level 🙏🏽)
 
-<hr />  
+<hr />
