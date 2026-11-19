@@ -11,7 +11,7 @@ permissions:
 jobs:
   publish:
     name: Build, test, and publish
-    runs-on: windows-latest
+    runs-on: windows-2022
     permissions:
       contents: read
       id-token: write
@@ -52,11 +52,15 @@ jobs:
         shell: pwsh
         run: |
           $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
-          $vstest = & $vswhere -latest -products * -requires Microsoft.VisualStudio.PackageGroup.TestTools -find 'Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' | Select-Object -First 1
-          if (-not $vstest) {
-            throw 'Unable to locate vstest.console.exe on the hosted Windows runner.'
+          $installationPath = & $vswhere -latest -products * -property installationPath | Select-Object -First 1
+          if (-not $installationPath) {
+            throw 'Unable to locate a Visual Studio installation on the hosted Windows runner.'
           }
-          & $vstest .\WillStrohl.API.oEmbed.Tests\bin\Release\net48\WillStrohl.API.oEmbed.Tests.dll
+          $vstest = Join-Path $installationPath 'Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe'
+          if (-not (Test-Path $vstest)) {
+            throw "Unable to locate vstest.console.exe at '$vstest'."
+          }
+          & $vstest .\WillStrohl.API.oEmbed.Tests\bin\Release\net48\WillStrohl.API.oEmbed.Tests.dll /logger:trx
           if ($LASTEXITCODE -ne 0) {
             exit $LASTEXITCODE
           }
