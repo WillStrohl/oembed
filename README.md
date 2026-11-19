@@ -56,7 +56,7 @@ A website may place a root-level `oembed.json.config` file in its website root (
 `DisableHtmlTransformation` returns provider HTML without transformation and is intended only for troubleshooting. `DisableSecurity` bypasses the outbound security policy and is a troubleshooting-only emergency switch; it should not be enabled in production. `oembed.json.config.example` is a safe checked-in template and does not enable either bypass.
 
 ## Demo
-The [Media Module for DNN](https://github.com/dnncommunity/dnn.media) uses this provider to allow end users to very quickly add media to their websites.
+Demos of this software can be seen on various [runsonUpendo](https://runsonupendo.com) client websites.  
 
 ## Installation
 
