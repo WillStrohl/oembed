@@ -5,7 +5,7 @@
     <AssemblyName>WillStrohl.API.oEmbed</AssemblyName>
     <RootNamespace></RootNamespace>
     <PackageId>WillStrohl.API.oEmbed</PackageId>
-    <Version>1.5.2</Version>
+    <Version>0.5.2</Version>
     <Authors>Upendo Ventures, LLC</Authors>
     <Description>A .NET Framework wrapper for the oEmbed open format, with provider routing, unauthenticated discovery, security policy enforcement, and safe embed rendering.</Description>
     <PackageTags>oembed;embed;youtube;flickr;vimeo;soundcloud;spotify;tiktok</PackageTags>
