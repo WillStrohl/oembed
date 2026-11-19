@@ -1,4 +1,6 @@
 using System; using System.Reflection; using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("WillStrohl.API.oEmbed.Tests")]
 [assembly: AssemblyTitle("oEmbed Wrapper for .NET")]
 [assembly: AssemblyDescription("A wrapper library for oEmbed.")]
 [assembly: AssemblyCompany("Upendo Ventures, LLC")]

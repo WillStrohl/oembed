@@ -24,6 +24,9 @@ namespace WillStrohl.API.oEmbed
         public const string MYOPERA_FORMAT = @"http://my.opera.com/service/oembed?url={0}&format=json";
         public const string CLEARSPRINGWIDGETS_FORMAT = @"http://widgets.clearspring.com/widget/v1/oembed/?url={0}&format=json";
         public const string EMBEDLY_FORMAT = @"http://api.embed.ly/1/oembed?url={0}&format=json";
+        public const string SPOTIFY_FORMAT = @"https://open.spotify.com/oembed?url={0}&format=json";
+        public const string SOUNDCLOUD_FORMAT = @"https://soundcloud.com/oembed?url={0}&format=json";
+        public const string TIKTOK_FORMAT = @"https://www.tiktok.com/oembed?url={0}";
         public const string PROVIDER_FLICKR = @"Flickr";
         public const string PROVIDER_CLEARSPRINGWIDGETS = @"ClearspringWidgets";
         public const string PROVIDER_EMBEDLY = @"Embedly";
@@ -36,5 +39,8 @@ namespace WillStrohl.API.oEmbed
         public const string PROVIDER_VIDDLER = @"Viddler";
         public const string PROVIDER_VIMEO = @"Vimeo";
         public const string PROVIDER_YOUTUBE = @"YouTube";
+        public const string PROVIDER_SPOTIFY = @"Spotify";
+        public const string PROVIDER_SOUNDCLOUD = @"SoundCloud";
+        public const string PROVIDER_TIKTOK = @"TikTok";
     }
 }
