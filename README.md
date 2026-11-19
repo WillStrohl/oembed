@@ -58,6 +58,16 @@ A website may place a root-level `oembed.json.config` file in its website root (
 ## Demo
 The [Media Module for DNN](https://github.com/dnncommunity/dnn.media) uses this provider to allow end users to very quickly add media to their websites.
 
+## Installation
+
+Install the `WillStrohl.API.oEmbed` package from NuGet:
+
+```powershell
+Install-Package WillStrohl.API.oEmbed -Version 0.5.0
+```
+
+The package targets .NET Framework 4.8 and brings in Newtonsoft.Json 13.0.3 as its runtime dependency.
+
 ## System Requirements
 .NET Framework 4.8
 JSON.NET
