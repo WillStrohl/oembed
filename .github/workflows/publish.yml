@@ -108,7 +108,8 @@ jobs:
           $package = Get-ChildItem .\WillStrohl.oEmbed\artifacts\nuget\*.nupkg | Select-Object -First 1
           dotnet nuget push $package.FullName `
             --api-key $env:NUGET_API_KEY `
-            --source https://api.nuget.org/v3/index.json
+            --source https://api.nuget.org/v3/index.json `
+            --skip-duplicate
 
       - name: Publish symbols
         shell: pwsh
@@ -118,4 +119,5 @@ jobs:
           $symbols = Get-ChildItem .\WillStrohl.oEmbed\artifacts\nuget\*.snupkg | Select-Object -First 1
           dotnet nuget push $symbols.FullName `
             --api-key $env:NUGET_API_KEY `
-            --source https://api.nuget.org/v3/index.json
+            --source https://api.nuget.org/v3/index.json `
+            --skip-duplicate
