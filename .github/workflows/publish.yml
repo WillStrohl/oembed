@@ -1,0 +1,92 @@
+name: Publish NuGet package
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Build, test, and publish
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Validate release tag
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          [xml]$project = Get-Content .\WillStrohl.oEmbed\WillStrohl.API.oEmbed.csproj
+          $version = $project.Project.PropertyGroup.Version | Select-Object -First 1
+          $tagVersion = $env:RELEASE_TAG -replace '^v', ''
+          if ($tagVersion -ne $version) {
+            throw "Release tag '$env:RELEASE_TAG' does not match project version '$version'."
+          }
+          Write-Host "Publishing version $version from tag $env:RELEASE_TAG."
+
+      - name: Build library
+        shell: pwsh
+        run: >-
+          msbuild .\WillStrohl.oEmbed\WillStrohl.API.oEmbed.csproj
+          /restore /t:Build /p:Configuration=Release
+
+      - name: Build and run tests
+        shell: pwsh
+        run: >-
+          msbuild .\WillStrohl.API.oEmbed.Tests\WillStrohl.API.oEmbed.Tests.csproj
+          /restore /t:VSTest /p:Configuration=Release
+
+      - name: Pack library
+        shell: pwsh
+        run: >-
+          msbuild .\WillStrohl.oEmbed\WillStrohl.API.oEmbed.csproj
+          /t:Pack /p:Configuration=Release /p:PackageOutputPath=artifacts\nuget\
+
+      - name: Validate package artifacts
+        shell: pwsh
+        run: |
+          $packages = @(Get-ChildItem .\WillStrohl.oEmbed\artifacts\nuget\*.nupkg)
+          $symbols = @(Get-ChildItem .\WillStrohl.oEmbed\artifacts\nuget\*.snupkg)
+          if ($packages.Count -ne 1) {
+            throw "Expected exactly one NuGet package, found $($packages.Count)."
+          }
+          if ($symbols.Count -ne 1) {
+            throw "Expected exactly one symbol package, found $($symbols.Count)."
+          }
+          Write-Host "Package: $($packages[0].FullName)"
+          Write-Host "Symbols: $($symbols[0].FullName)"
+
+      - name: NuGet login (OIDC)
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Publish package
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+        run: |
+          $package = Get-ChildItem .\WillStrohl.oEmbed\artifacts\nuget\*.nupkg | Select-Object -First 1
+          dotnet nuget push $package.FullName `
+            --api-key $env:NUGET_API_KEY `
+            --source https://api.nuget.org/v3/index.json
+
+      - name: Publish symbols
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+        run: |
+          $symbols = Get-ChildItem .\WillStrohl.oEmbed\artifacts\nuget\*.snupkg | Select-Object -First 1
+          dotnet nuget push $symbols.FullName `
+            --api-key $env:NUGET_API_KEY `
+            --source https://api.nuget.org/v3/index.json

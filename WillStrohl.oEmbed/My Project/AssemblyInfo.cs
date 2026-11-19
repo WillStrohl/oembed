@@ -9,5 +9,6 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTrademark("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("6f8b56d0-d62c-42f6-96b4-76f936c605bf")]
-[assembly: AssemblyVersion("00.05.00")]
-[assembly: AssemblyFileVersion("00.05.00")]
+[assembly: AssemblyVersion("0.5.0.0")]
+[assembly: AssemblyFileVersion("0.5.0.0")]
+[assembly: AssemblyInformationalVersion("0.5.0")]
