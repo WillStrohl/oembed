@@ -5,7 +5,7 @@
     <AssemblyName>WillStrohl.API.oEmbed</AssemblyName>
     <RootNamespace></RootNamespace>
     <PackageId>WillStrohl.API.oEmbed</PackageId>
-    <Version>0.5.0</Version>
+    <Version>0.5.1</Version>
     <Authors>Upendo Ventures, LLC</Authors>
     <Description>A .NET Framework wrapper for the oEmbed open format, with provider routing, unauthenticated discovery, security policy enforcement, and safe embed rendering.</Description>
     <PackageTags>oembed;embed;youtube;flickr;vimeo;soundcloud;spotify;tiktok</PackageTags>
@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/WillStrohl/oembed.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>Initial NuGet package for the modernized .NET Framework 4.8 oEmbed wrapper.</PackageReleaseNotes>
+    <PackageReleaseNotes>NuGet package release 0.5.1 for the modernized .NET Framework 4.8 oEmbed wrapper.</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
