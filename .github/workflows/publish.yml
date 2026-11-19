@@ -85,6 +85,15 @@ jobs:
           Write-Host "Package: $($packages[0].FullName)"
           Write-Host "Symbols: $($symbols[0].FullName)"
 
+      - name: Validate NuGet publishing identity
+        shell: pwsh
+        env:
+          NUGET_USER: ${{ secrets.NUGET_USER }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:NUGET_USER)) {
+            throw 'Repository secret NUGET_USER is not configured. Set it to the exact NuGet.org profile name before publishing.'
+          }
+
       - name: NuGet login (OIDC)
         id: nuget-login
         uses: NuGet/login@v1
