@@ -1,6 +1,7 @@
 # oEmbed for .NET
 
 [![NuGet](https://img.shields.io/nuget/v/WillStrohl.API.oEmbed.svg)](https://www.nuget.org/packages/WillStrohl.API.oEmbed)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/WillStrohl.API.oEmbed?logo=nuget)](https://www.nuget.org/packages/WillStrohl.API.oEmbed)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/WillStrohl/oembed/blob/master/LICENSE)
 
 Turn a URL into embeddable content with a single call. Paste in a Spotify track, a SoundCloud set, a TikTok video, or any page that advertises an oEmbed endpoint, and get back safe, ready-to-render HTML.
